@@ -10,9 +10,9 @@ file_path = "./result.txt"
 
 def main():
     coords = import_coords(path)
-    file = open(file_path, "a")
-    
     while True:
+        file = open(file_path, "a")
+    
         # Find through steps method
         point1 = (0, 0)
         point2 = (0, 0)
@@ -79,6 +79,8 @@ def main():
         file.write(str(record) + " " + str(point1) + " " + str(point2) + " " + str(count) + "\n")
         print("⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️")
         print(record, point1, point2, count)
+        
+        file.close()
 
 def test():
     coords = import_coords(path)
