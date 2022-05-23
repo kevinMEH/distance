@@ -6,6 +6,9 @@ def dist(ox, oy, tx, ty):
 def squared_dist(ox, oy, tx, ty):
 	return (ox - tx) ** 2 + (oy - ty) ** 2
 
+def squared_dist_p(point1, point2):
+    return squared_dist(point1[0], point1[1], point2[0], point2[1])
+
 def total_squared_dist(point, coords):
 	(ox, oy) = point
 	result = 0
@@ -27,15 +30,30 @@ def squared_dist_array(point, coords):
 		distances.append(squared_dist(ox, oy, x, y))
 	return distances
 
-def closest_point(point, coords):
-	(ox, oy) = point
+def closest_point(origin, coords):
 	closest = coords[0]
-	closest_squared_dist = sq_dist(ox, oy, coords[0][0], coords[0][1])
+	closest_squared_dist = squared_dist_p(origin, closest)
 
-	for ( x, y ) in coords:
-		sq_dist = sq_dist(ox, oy, x, y)
+	for point in coords:
+		sq_dist = squared_dist_p(origin, point)
 		if sq_dist < closest_squared_dist:
 			closest_squared_dist = sq_dist
-			closest = (x, y)
+			closest = point
 
 	return closest
+
+def closest_not(origin, coords, not_this):
+    closest = coords[0]
+    if closest == not_this:
+        closest = coords[1]
+    closest_squared_dist = squared_dist_p(origin, closest)
+    
+    for point in coords:
+        if point == not_this:
+            continue
+        sq_dist = squared_dist_p(origin, point)
+        if sq_dist < closest_squared_dist:
+            closest_squared_dist = sq_dist
+            closest = point
+    
+    return closest
