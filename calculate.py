@@ -1,6 +1,7 @@
 from functools import reduce
 import random
 from statistics import stdev
+from time import sleep
 from distance import *
 
 path = "/BrooklynTech/Classwork/SomeTextFiles/coordinates.csv"
@@ -81,6 +82,7 @@ def main():
         print(record, point1, point2, count)
         
         file.close()
+        sleep(0.25)
 
 def test():
     coords = import_coords(path)
