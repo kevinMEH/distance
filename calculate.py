@@ -11,6 +11,7 @@ file_path = "./result.txt"
 
 def main():
     coords = import_coords(path)
+    t_limit = 200
     while True:
         file = open(file_path, "a")
     
@@ -26,7 +27,7 @@ def main():
         step_y = stdev(map(lambda coord: coord[1], coords)) * 1.667
 
         record = calc_score(coords, point1, point2)[0]
-        limit = 128
+        limit = t_limit
         
         count = 0
 
@@ -53,23 +54,23 @@ def main():
                     print(record, point1, point2)
                     record = score
                     point1 = new_point1
-                    limit = 128
+                    limit = t_limit
                 else:
                     limit = limit - 1
 
             
-            if limit < 124 and count < 150:
+            if limit < t_limit - 1 and count < t_limit:
                 count = count + 1
                 step_x /= 1.03
                 step_y /= 1.03
             
-            if count == 150:
-                limit = 128
+            if count == t_limit:
+                limit = t_limit
                 count = 9999
             
             # If there hasn't been a new record in multiple moves,
             # we've reached the end.
-            if limit < 0:
+            if limit <= 0:
                 break
             
             # Swap point1 and point2
@@ -78,8 +79,8 @@ def main():
             point2 = temp
         
         file.write(str(record) + " " + str(point1) + " " + str(point2) + " " + str(count) + "\n")
-        print("⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️")
         print(record, point1, point2, count)
+        print("⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️")
         
         file.close()
         sleep(0.25)
