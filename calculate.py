@@ -51,10 +51,10 @@ def main():
                 # If same record: Decrease limit by one.
                 # If smaller record: Ignore
                 if score < record:
-                    print(record, point1, point2)
                     record = score
                     point1 = new_point1
                     limit = t_limit
+                    print(record, point1, point2)
                 else:
                     limit = limit - 1
 
