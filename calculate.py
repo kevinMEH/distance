@@ -1,130 +1,154 @@
 from functools import reduce
 import random
-from statistics import stdev
 from time import sleep
 from distance import *
 
 path = "/BrooklynTech/Classwork/SomeTextFiles/coordinates.csv"
 path = "./coordinates.csv"
-
 file_path = "./result.txt"
 
 def main():
     coords = import_coords(path)
-    t_limit = 200
+    div_factor = 1.15
+    step_v2(coords, 2, 256, 4, div_factor)
+
+def step_v2(coords, clusters, count_limit, limit_limit, div_factor):
+    file = open(file_path, "a")
+    
+    # Point generation. Any number of points.
+    points = []
+    for _ in range(clusters):
+        point = random_point(coords)
+        while point in points:
+            point = random_point(coords)
+        points.append(point)
+    
+    # Default steps based on standard deviation
+    step_x = 0.05650488226427158 * 2
+    step_y = 0.05288401249558794 * 2
+    
+    record = calc_scores_any(coords, points)
+    limit = limit_limit
+    count = 0
+    
+    sqrt2div2 = sqrt(2) / 2
+    
     while True:
-        file = open(file_path, "a")
-    
-        # Find through steps method
-        point1 = (0, 0)
-        point2 = (0, 0)
-
-        while point1 == point2:
-            point1 = random_point(coords)
-            point2 = random_point(coords)
-
-        step_x = stdev(map(lambda coord: coord[0], coords)) * 1.667
-        step_y = stdev(map(lambda coord: coord[1], coords)) * 1.667
-
-        record = calc_score(coords, point1, point2)[0]
-        limit = t_limit
-        
-        count = 0
-
-        while True:
+        new_record = False
+        # For each point, step and generate new points.
+        # Calculate scores for new points.
+        # Have a local record: Tracks highest of the new points
+        # If local_record beats record: update the record,
+        # reset limit, update point.
+        # Record can update up to cluster times per while True
+        for i, point in enumerate(points):
+            dia_x = sqrt2div2 * step_x
+            dia_y = sqrt2div2 * step_y
             new_scores = []
+            new_points = [ *points ]
+            # TOP LEFT
+            stepped_point = (point[0] - dia_x, point[1] + dia_y)
+            new_points[i] = stepped_point
+            new_scores.append((calc_scores_any(coords, new_points), stepped_point))
             # TOP
-            new_point = closest_not((point1[0], point1[1] + step_y), coords, point1)
-            new_scores.append(calc_score(coords, new_point, point2))
-            # BOTTOM
-            new_point = closest_not((point1[0], point1[1] - step_y), coords, point1)
-            new_scores.append(calc_score(coords, new_point, point2))
+            stepped_point = (point[0], point[1] + step_y)
+            new_points[i] = stepped_point
+            new_scores.append((calc_scores_any(coords, new_points), stepped_point))
+            # TOP RIGHT
+            stepped_point = (point[0] + dia_x, point[1] + dia_y)
+            new_points[i] = stepped_point
+            new_scores.append((calc_scores_any(coords, new_points), stepped_point))
             # LEFT
-            new_point = closest_not((point1[0] - step_x, point1[1]), coords, point1)
-            new_scores.append(calc_score(coords, new_point, point2))
+            stepped_point = (point[0] - step_x, point[1])
+            new_points[i] = stepped_point
+            new_scores.append((calc_scores_any(coords, new_points), stepped_point))
             # RIGHT
-            new_point = closest_not((point1[0] + step_x, point1[1]), coords, point1)
-            new_scores.append(calc_score(coords, new_point, point2))
-
-            for (score, new_point1, _) in new_scores:
-                # If new record: Note new record, reset limit
-                # If same record: Decrease limit by one.
-                # If smaller record: Ignore
-                if score < record:
-                    record = score
-                    point1 = new_point1
-                    limit = t_limit
-                    print(record, point1, point2)
-                else:
-                    limit = limit - 1
-
+            stepped_point = (point[0] + step_x, point[1])
+            new_points[i] = stepped_point
+            new_scores.append((calc_scores_any(coords, new_points), stepped_point))
+            # BOTTOM LEFT
+            stepped_point = (point[0] - dia_x, point[1] - dia_y)
+            new_points[i] = stepped_point
+            new_scores.append((calc_scores_any(coords, new_points), stepped_point))
+            # BOTTOM
+            new_points[i] = stepped_point
+            stepped_point = (point[0], point[1] - step_y)
+            new_scores.append((calc_scores_any(coords, new_points), stepped_point))
+            # BOTTOM RIGHT
+            stepped_point = (point[0] + dia_x, point[1] - dia_y)
+            new_points[i] = stepped_point
+            new_scores.append((calc_scores_any(coords, new_points), stepped_point))
             
-            if limit < t_limit - 1 and count < t_limit:
-                count = count + 1
-                step_x /= 1.03
-                step_y /= 1.03
+            local_record = 99999
+            local_record_point = new_scores[0][1]
             
-            if count == t_limit:
-                limit = t_limit
-                count = 9999
+            for score, new_point in new_scores:
+                if score < local_record:
+                    local_record = score
+                    local_record_point = new_point
             
-            # If there hasn't been a new record in multiple moves,
-            # we've reached the end.
-            if limit <= 0:
-                break
+            if local_record < record:
+                record = local_record
+                points[i] = local_record_point
+                new_record = True
+                print(record, points)
             
-            # Swap point1 and point2
-            temp = point1
-            point1 = point2
-            point2 = temp
+        # If no new record updates: Decrease limit by 1.
+        if not new_record:
+            print(count, limit)
+            limit = limit - 1
+        else:
+            limit = limit_limit
         
-        file.write(str(record) + " " + str(point1) + " " + str(point2) + " " + str(count) + "\n")
-        print(record, point1, point2, count)
-        print("⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️")
+        if limit < limit_limit and count < count_limit:
+            count = count + 1
+            step_x /= div_factor
+            step_y /= div_factor
         
-        file.close()
-        sleep(0.25)
-
-def test():
-    coords = import_coords(path)
-    coords = coords[0:14]
-
-    random1 = coords[3]
-    random2 = coords[7]
-
-    distance1 = dist_array(random1, coords)
-    distance2 = dist_array(random2, coords)
-
-    sq_dist1 = map(lambda x: x * x, distance1)
-    sq_dist2 = map(lambda x: x * x, distance2)
+        if count >= count_limit and limit <= 0:
+            break
     
-    (filtered1, filtered2) = filter_dist(sq_dist1, sq_dist2)
     
-    print(total(filtered1) + total(filtered2));
+    file.write(str(record) + " " + str(points) + "\n")
+    print(record, points)
+    print("⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️")
+    
+    file.close()
+    sleep(0.25)
 
-def calc_score(coords, point1, point2):
-    distances1 = squared_dist_array(point1, coords)
-    distances2 = squared_dist_array(point2, coords)
-    (filtered1, filtered2) = filter_dist(distances1, distances2)
-    return (total(filtered1) + total(filtered2), point1, point2)
+
+def calc_scores_any(coords, points):
+    dist_arrays = []
+    for point in points:
+        dist_arrays.append(squared_dist_array(point, coords))
+    filtered_dists = filter_dist_any(dist_arrays)
+    score = 0
+    for dists in filtered_dists:
+        score += total(dists)
+    return score
+
+def filter_dist_any(dist_arrays):
+    if len(dist_arrays) == 0: return
+
+    results = [ [] for _ in range(len(dist_arrays)) ]
+    for i in range(len(dist_arrays[0])):
+        record = 9999999
+        record_index = 0
+        for j, array in enumerate(dist_arrays):
+            dist = array[i]
+            if dist < record:
+                record = dist
+                record_index = j
+        results[record_index].append(record)
+    
+    return results
 
 def total(array):
     if len(array) == 0: return 0
     return reduce(lambda a, b: a + b, array)
 
-def filter_dist(array1, array2):
-    result_1 = []
-    result_2 = []
-    for i in range(0, len(array1)):
-        if array1[i] < array2[i]:
-            result_1.append(array1[i])
-        else:
-            result_2.append(array2[i])
-    return (result_1, result_2)
-
 def random_point(coords):
     return random.choice(coords)
-
 
 def import_coords(file_name):
     coords = []
