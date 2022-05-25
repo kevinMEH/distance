@@ -9,8 +9,8 @@ file_path = "./result.txt"
 
 def main():
     coords = import_coords(path)
-    div_factor = 1.15
-    step_v2(coords, 2, 256, 4, div_factor)
+    while True:
+        step_v2(coords, 2, 96, 4, 1.33)
 
 def step_v2(coords, clusters, count_limit, limit_limit, div_factor):
     file = open(file_path, "a")
@@ -32,6 +32,8 @@ def step_v2(coords, clusters, count_limit, limit_limit, div_factor):
     count = 0
     
     sqrt2div2 = sqrt(2) / 2
+    
+    write = True
     
     while True:
         new_record = False
@@ -95,7 +97,6 @@ def step_v2(coords, clusters, count_limit, limit_limit, div_factor):
             
         # If no new record updates: Decrease limit by 1.
         if not new_record:
-            print(count, limit)
             limit = limit - 1
         else:
             limit = limit_limit
@@ -105,13 +106,25 @@ def step_v2(coords, clusters, count_limit, limit_limit, div_factor):
             step_x /= div_factor
             step_y /= div_factor
         
+        # Prekill non records to not waste time
+        if count == 25:
+            if record - 149.2 > 0:
+                write = False
+                print("Skipped " + str(record))
+                break
+        if count == 50:
+            if record - 148.7 > 0:
+                write = False
+                print("Skipped " + str(record))
+                break
+        
         if count >= count_limit and limit <= 0:
             break
     
-    
-    file.write(str(record) + " " + str(points) + "\n")
-    print(record, points)
-    print("⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️")
+    if write:
+        file.write(str(record) + " " + str(points) + "\n")
+        print(record, points)
+        print("⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️")
     
     file.close()
     sleep(0.25)
