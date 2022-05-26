@@ -7,7 +7,7 @@ file_path = "./result.txt"
 def main():
     coords = import_coords(path)
     while True:
-        step_v2(file_path, coords, 2, 96, 4, 1.33)
+        step_v2(file_path, coords, 2, 128, 3, 1.33)
 
 def import_coords(file_name):
     coords = []

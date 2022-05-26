@@ -69,20 +69,13 @@ def step_v2(file_path, coords, clusters, count_limit, limit_limit, div_factor):
             stepped_point = (point[0] + dia_x, point[1] - dia_y)
             new_points[i] = stepped_point
             new_scores.append((calc_scores_any(coords, new_points), stepped_point))
-            
-            local_record = 99999
-            local_record_point = new_scores[0][1]
-            
+
             for score, new_point in new_scores:
-                if score < local_record:
-                    local_record = score
-                    local_record_point = new_point
-            
-            if local_record < record:
-                record = local_record
-                points[i] = local_record_point
-                new_record = True
-                print(record, points)
+                if score < record:
+                    record = score
+                    points[i] = new_point
+                    new_record = True
+                    print(record, points)
             
         # If no new record updates: Decrease limit by 1.
         if not new_record:
