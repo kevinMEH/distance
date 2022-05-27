@@ -1,7 +1,7 @@
 from calculate import *
 from time import sleep
 
-def step_v2(file_path, coords, clusters, count_limit, limit_limit, div_factor):
+def step_v2(file_path, coords, clusters, count_limit, limit_limit, div_factor, prekills = []):
     file = open(file_path, "a")
     
     # Point generation. Any number of points.
@@ -88,17 +88,16 @@ def step_v2(file_path, coords, clusters, count_limit, limit_limit, div_factor):
             step_x /= div_factor
             step_y /= div_factor
         
+        to_break = False
         # Prekill non records to not waste time
-        if count == 25:
-            if record - 149.2 > 0:
-                write = False
-                print("Skipped " + str(record))
-                break
-        if count == 50:
-            if record - 148.7 > 0:
-                write = False
-                print("Skipped " + str(record))
-                break
+        for check_count, target in prekills:
+            if count == check_count:
+                if record - target > 0:
+                    write = False
+                    print("Skipped " + str(record))
+                    to_break = True
+
+        if to_break: break;
         
         if count >= count_limit and limit <= 0:
             break
