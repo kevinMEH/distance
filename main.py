@@ -1,13 +1,15 @@
 from algorithms.step_v2 import step_v2
+from algorithms.centroid import kmeans
 
 path = "/BrooklynTech/Classwork/SomeTextFiles/coordinates.csv"
 path = "./coordinates.csv"
-file_path = "./result.txt"
+file_path = "./results/2_cluster_centroids_records.txt"
 
 def main():
     coords = import_coords(path)
     while True:
-        step_v2(file_path, coords, 2, 128, 3, 1.33)
+        kmeans(file_path, coords, 2)
+        # step_v2(file_path, coords, 3, 64, 3, 1.33)
 
 def import_coords(file_name):
     coords = []
