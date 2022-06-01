@@ -3,13 +3,18 @@ from algorithms.centroid import kmeans
 
 path = "/BrooklynTech/Classwork/SomeTextFiles/coordinates.csv"
 path = "./coordinates.csv"
-file_path = "./results/2_cluster_centroids_records.txt"
+folder = "./results/"
+kmeans_ending = "_cluster_centroids_records.txt"
+step_ending = "_cluster_step_records.txt"
 
 def main():
-    coords = import_coords(path)
     while True:
-        kmeans(file_path, coords, 2)
-        # step_v2(file_path, coords, 3, 64, 3, 1.33)
+        clusters = 6
+        coords = import_coords(path)
+        for _ in range(8):
+            kmeans(folder + str(clusters) + kmeans_ending, coords, clusters)
+            step_v2(folder + str(clusters) + step_ending, coords, clusters, 32, 2, 1.33)
+        clusters = clusters + clusters // 2
 
 def import_coords(file_name):
     coords = []
