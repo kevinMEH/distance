@@ -1,6 +1,8 @@
 from calculate import *
 from time import sleep
 
+from plot import scatter_plot
+
 def step_v2(file_path, coords, clusters, count_limit, limit_limit, div_factor, prekills = []):
     file = open(file_path, "a")
     
@@ -103,6 +105,12 @@ def step_v2(file_path, coords, clusters, count_limit, limit_limit, div_factor, p
             break
     
     if write:
+        dist_arrays = []
+        for point in points:
+            dist_arrays.append(squared_dist_array(point, coords))
+        _, filtered_points = filter_dist_with_points(coords, dist_arrays)
+        scatter_plot(filtered_points, points, record)
+
         file.write(str(record) + " " + str(points) + "\n")
         print(record, points)
         print("⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️")
