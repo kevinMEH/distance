@@ -1,5 +1,4 @@
 from genericpath import exists
-
 from plot import line_plot
 
 folder = "./results/"
