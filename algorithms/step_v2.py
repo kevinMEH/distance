@@ -4,8 +4,6 @@ from time import sleep
 from plot import scatter_plot
 
 def step_v2(file_path, coords, clusters, count_limit, limit_limit, div_factor, prekills = [], plot = False):
-    file = open(file_path, "a")
-    
     # Point generation. Any number of points.
     points = []
     for _ in range(clusters):
@@ -112,9 +110,10 @@ def step_v2(file_path, coords, clusters, count_limit, limit_limit, div_factor, p
             _, filtered_points = filter_dist_with_points(coords, dist_arrays)
             scatter_plot(filtered_points, points, record)
 
+        file = open(file_path, "a")
         file.write(str(record) + " " + str(points) + "\n")
         print(record, points)
         print("⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️")
+        file.close()
     
-    file.close()
     sleep(0.25)

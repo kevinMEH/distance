@@ -3,8 +3,6 @@ from distance import *
 from time import sleep
 
 def step_v1(coords, t_limit, div_factor, file_path):
-    file = open(file_path, "a")
-
     # Find through steps method
     point1 = (0, 0)
     point2 = (0, 0)
@@ -64,6 +62,8 @@ def step_v1(coords, t_limit, div_factor, file_path):
         point1 = point2
         point2 = temp
     
+    file = open(file_path, "a")
+
     file.write(str(record) + " " + str(point1) + " " + str(point2) + " " + str(count) + "\n")
     print(record, point1, point2, count)
     print("⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️")

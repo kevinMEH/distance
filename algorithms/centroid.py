@@ -4,8 +4,6 @@ from time import sleep
 from plot import scatter_plot
 
 def kmeans(file_path, coords, clusters, plot = False):
-    file = open(file_path, "a")
-
     centroids = []
     for _ in range(clusters):
         point = random_point(coords)
@@ -35,6 +33,7 @@ def kmeans(file_path, coords, clusters, plot = False):
     if plot:
         scatter_plot(filtered_points, centroids, record)
 
+    file = open(file_path, "a")
     file.write(str(record) + " " + str(centroids) + "\n")
     print(record, centroids)
     print("⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️")
