@@ -29,3 +29,10 @@ def scatter_plot(filtered_coords, centroids, score):
     plot.gca().set_aspect("equal")
     axes.scatter(x, y, s=sizes, c=colors, vmin=0, vmax=100)
     plot.show()
+
+def line_plot(x, y):
+    plot.plot(x, y)
+    plot.xticks(range(x[0], x[-1] + 1, 2))
+    plot.grid(True, axis = "x")
+    plot.show()
+    # plot.sh
