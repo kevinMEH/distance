@@ -8,13 +8,12 @@ kmeans_ending = "_cluster_centroids_records.txt"
 step_ending = "_cluster_step_records.txt"
 
 def main():
+    clusters = 7
     while True:
-        clusters = 6
         coords = import_coords(path)
-        for _ in range(8):
+        for _ in range(7):
             kmeans(folder + str(clusters) + kmeans_ending, coords, clusters)
-            step_v2(folder + str(clusters) + step_ending, coords, clusters, 32, 2, 1.33)
-        clusters = clusters + clusters // 2
+        clusters = clusters + 2
 
 def import_coords(file_name):
     coords = []
