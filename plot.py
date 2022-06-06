@@ -32,7 +32,7 @@ def scatter_plot(filtered_coords, centroids, score):
 
 def line_plot(x, y):
     plot.plot(x, y)
-    plot.xticks(range(x[0], x[-1] + 1, 2))
+    plot.xticks(range(0, x[-1] + 1, x[-1] // 10))
     plot.grid(True, axis = "x")
     plot.show()
     # plot.sh
