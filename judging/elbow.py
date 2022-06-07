@@ -2,9 +2,8 @@ from genericpath import exists
 from plot import line_plot
 
 folder = "./results/"
-ending = "_cluster_centroids_records.txt"
 
-def elbow():
+def elbow(ending, folder = folder):
     centroid_count = []
     records = []
     for i in range(21):

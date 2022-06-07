@@ -3,10 +3,8 @@ from distance import squared_dist_array
 from plot import line_plot
 
 folder = "./results/"
-ending = "_cluster_centroids_records.txt"
-coords_path = "./coordinates.csv"
 
-def silhouette(coords):
+def silhouette(ending, coords, folder = folder):
     centroid_count = []
     silhouette_scores = []
     
