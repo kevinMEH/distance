@@ -69,7 +69,6 @@ def step_v1(coords, t_limit, div_factor, file_path):
     print("⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️")
     
     file.close()
-    sleep(0.25)
 
 def calc_score(coords, point1, point2):
     distances1 = squared_dist_array(point1, coords)

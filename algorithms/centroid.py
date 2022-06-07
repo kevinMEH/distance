@@ -39,7 +39,6 @@ def kmeans(file_path, coords, clusters, plot = False):
     print("⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️")
 
     file.close()
-    sleep(0.25)
 
 
 def average_xy(filtered):

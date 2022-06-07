@@ -115,5 +115,3 @@ def step_v2(file_path, coords, clusters, count_limit, limit_limit, div_factor, p
         print(record, points)
         print("⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️")
         file.close()
-    
-    sleep(0.25)
