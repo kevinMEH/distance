@@ -1,6 +1,6 @@
 from calculate import random_point, total
+
 from distance import *
-from time import sleep
 
 def step_v1(coords, t_limit, div_factor, file_path):
     # Find through steps method

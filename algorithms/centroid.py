@@ -1,5 +1,4 @@
 from calculate import *
-from time import sleep
 
 from plot import scatter_plot
 

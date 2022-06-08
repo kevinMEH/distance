@@ -16,7 +16,7 @@ def elbow(ending, folder = folder):
                     file_records.append(float(values[0]))
 
                 if len(file_records) == 0:
-                    continue;
+                    continue
 
                 true_record = 999999
                 for record in file_records:
