@@ -75,31 +75,12 @@ def silhouette(ending, coords, folder = folder):
                     
                     num_points_assoc_centroid = len(filtered_dists[first_record_centroid_index])
                     cent_x, cent_y = first_record_centroid
-                    # print(cent_x, cent_y)
                     cent_x = cent_x * num_points_assoc_centroid
                     cent_y = cent_y * num_points_assoc_centroid
-                    # print(cent_x, cent_y)
                     cent_x = cent_x - point[0]
                     cent_y = cent_y - point[1]
-                    # print(cent_x, cent_y)
                     cent_x = cent_x / (num_points_assoc_centroid - 1)
                     cent_y = cent_y / (num_points_assoc_centroid - 1)
-                    # print(cent_x, cent_y)
-                    # print()
-                    # print()
-                    # print()
-                    # print()
-                    # print()
-                    # print()
-                    
-                    # print(first_record_centroid)
-                    # print(num_points_assoc_centroid)
-                    # print(cent_x, cent_y)
-                    # print(point)
-                    # print(first_record)
-                    # print(squared_dist_p(point, (cent_x, cent_y)))
-                    # print(second_record)
-                    # return;
                     closest_dists.append(squared_dist_p(point, (cent_x, cent_y)))
                     next_closest_dists.append(second_record)
 
