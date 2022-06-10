@@ -2,23 +2,20 @@ from algorithms.step_v2 import step_v2
 from algorithms.centroid import kmeans
 from judging.elbow import elbow
 from judging.silhouette import silhouette
+# from judging.silhouette_inc import silhouette
 
-path = "/BrooklynTech/Classwork/SomeTextFiles/coordinates.csv"
 path = "./coordinates.csv"
 folder = "./results/"
-kmeans_ending = "_cluster_centroids_records.txt"
 step_ending = "_cluster_step_records.txt"
+kmeans_ending = "_cluster_centroids_records.txt"
+# ending = "_bcn.csv"
 
 def main():
     coords = import_coords(path)
-    silhouette(coords)
-    return
-    elbow()
-    clusters = 11
-    while True:
-        for _ in range(7):
-            kmeans(folder + str(clusters) + kmeans_ending, coords, clusters)
-        clusters = clusters + 1
+    for clusters in range(2, 15):
+        for _ in range(15):
+            kmeans(str(clusters) + "_" + kmeans_ending, coords, clusters, plot = False)
+    elbow(kmeans_ending)
 
 def import_coords(file_name):
     coords = []
