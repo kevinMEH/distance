@@ -118,7 +118,7 @@ Goes through the record files, finds the best centroids, then for each point, ca
 
 ![Silhouette plot for coordinates.csv](plots/silhouette.png)
 
-The higher the silhouette score, the better, as it means that the cluster "fits" in the current centroid, and that the next closest centroid is a lot further away.
+The higher the silhouette score, the better, as it means that the cluster "fits" in the current cluster, and that points from other clusters are very far away.
 
 Sometimes it doesn't really say much. Like in the example above. But other times, it can help determine the optimal number of clusters because if the silhouette value starts going down, we know that some clusters are rather redundant since the points can readily associate themselves with another cluster without adding much too much weight to the squared distance metric.
 
